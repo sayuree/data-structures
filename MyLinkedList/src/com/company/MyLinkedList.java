@@ -2,78 +2,79 @@ package com.company;
 
 public class MyLinkedList {
     MyNode head;
-
+    /* Constructors */
     MyLinkedList(MyNode headNode){
         this.head = headNode;
     }
     MyLinkedList(){ this.head = null; };
+
     /* Adds a node to the end of the LinkedList */
     public void appendNode(MyNode newElement) {
-        MyNode iterator = head;
         /* Base Case */
-        if(head.next == null) {
-            head.next = newElement;
+        if(isEmpty()) {
+            this.head.next = newElement;
             return;
         }
-        System.out.println("AFTER ADDING 1 ELEMENT");
+        MyNode currentNode = this.head;
         /* General Case */
-        while(iterator.next == null) {
-            if(iterator.next.next == null){
-                iterator.next.next = newElement;
+        while(currentNode != null) {
+            if(currentNode.next == null){
+                currentNode.next = newElement;
                 break;
             }
-            iterator = iterator.next;
+            currentNode = currentNode.next;
         }
     }
 
+    /* Inserts at the head of a list */
     public void insertFront(MyNode newElement) {
-        if(head.next == null) {
-            head.next = newElement;
+        if(isEmpty()) {
+            this.head = newElement;
             return;
         }
-        MyNode firstElement = head.next;
-        head.next = newElement;
+        MyNode firstElement = this.head; /* Can it be without .next? */
+        this.head = newElement;
         newElement.next = firstElement;
     }
+    /* Inserts a node at some predefined index */
+    public void insertAtIndex(MyNode newElement, int index) {
+        if(index<0 || index>getSize()) {
+            System.exit(0);
+        }
+    }
 
+    /* Returns the number of nodes in LinkedList */
     public int getSize() {
-
-        return 0;
+        int listLength = 0;
+        if(isEmpty()) {
+            return listLength;
+        }
+        MyNode currentNode = this.head; /* Difference between head vs. this.head? */
+        while(currentNode != null) {
+            listLength++;
+            currentNode = currentNode.next;
+        }
+        return listLength;
     }
 
+    /* Checks whether a list is empty */
     public boolean isEmpty() {
-        return head.next == null ? true : false;
+        return this.head == null ? true : false;
     }
 
+    /* Provides string representation of a list */
     @Override
     public String toString() {
-        MyNode iterator = head;
         /* Base Case: a single node */
-        if(head.next == null) {
+        if(isEmpty()) {
             return "No items";
         }
-
-        String result = "Start:";
-        while(iterator.next != null) {
-            result += " "+iterator.next.data;
-            iterator = iterator.next;
+        MyNode currentNode = this.head;
+        String result = "[List Content]:";
+        while(currentNode != null) {
+            result += " "+currentNode.data;
+            currentNode = currentNode.next;
         }
         return result;
-    }
-
-    public void printList()
-    {
-        MyNode currNode = head.next;
-
-        System.out.print("LinkedList: ");
-
-        // Traverse through the LinkedList
-        while (currNode != null) {
-            // Print the data at current node
-            System.out.print(currNode.data + " ");
-
-            // Go to next node
-            currNode = currNode.next;
-        }
     }
 }
