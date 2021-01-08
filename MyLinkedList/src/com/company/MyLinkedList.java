@@ -36,10 +36,35 @@ public class MyLinkedList {
         this.head = newElement;
         newElement.next = firstElement;
     }
-    /* Inserts a node at some predefined index */
+    /* Inserts a node at some predefined index
+    * Index should be from 0 to N*/
     public void insertAtIndex(MyNode newElement, int index) {
-        if(index<0 || index>getSize()) {
-            System.exit(0);
+        if(index<0 || index>getSize() || newElement == null) {
+            return;
+        }
+        /* Inserting at index 0 */
+        System.out.println("I SHOULD BE HERE!");
+        if(index == 0) {
+            insertFront(newElement);
+            return;
+        }
+        System.out.println("I SHOULDN'T  BE HERE!");
+        /* Inserting at the end of the list */
+        if(getSize() == index) {
+            appendNode(newElement);
+            return;
+        }
+        /* Inserting in the middle of the list */
+        int count = 0;
+        MyNode currentNode = this.head;
+        while(currentNode != null) {
+            if(count == index) {
+                MyNode nextNode = currentNode.next;
+                currentNode.next = newElement;
+                newElement.next = nextNode;
+            }
+            count++;
+            currentNode = currentNode.next;
         }
     }
 
@@ -61,6 +86,55 @@ public class MyLinkedList {
     public boolean isEmpty() {
         return this.head == null ? true : false;
     }
+    /* Finding a node value at some predefined index */
+    public int get(int index) {
+        /* Invalid cases */
+        int result = -1;
+        if(!isValidIndex(index)) {
+            return result;
+        }
+        int counter = 0;
+        MyNode currentNode = this.head;
+        while (currentNode != null) {
+            if(counter == index) {
+                result = currentNode.data;
+                break;
+            }
+            counter++;
+            currentNode = currentNode.next;
+        }
+        return result;
+    }
+
+    public void deleteAtIndex(int index) {
+        /* Invalid cases */
+        if(!isValidIndex(index)) {
+            return;
+        }
+        /* Edge Case: empty list */
+        if(isEmpty()) {
+            return;
+        }
+        /* Deleting the head node */
+        if(this.getSize() == 1 && index == 0) {
+            this.head = null;
+            return;
+        }
+        int counter = 0;
+        MyNode currentNode = this.head;
+        while(currentNode != null) {
+            if(counter+1 == index) {
+            }
+        }
+    }
+
+    public boolean isValidIndex(int index) {
+        boolean isValid = true;
+        if(index < 0 || index > this.getSize()-1) {
+            isValid = false;
+        }
+        return isValid;
+    }
 
     /* Provides string representation of a list */
     @Override
@@ -72,7 +146,7 @@ public class MyLinkedList {
         MyNode currentNode = this.head;
         String result = "[List Content]:";
         while(currentNode != null) {
-            result += " "+currentNode.data;
+            result += " " + currentNode.data;
             currentNode = currentNode.next;
         }
         return result;
