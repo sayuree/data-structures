@@ -3,10 +3,10 @@ package com.company;
 public class MyLinkedList {
     MyNode head;
     /* Constructors */
-    MyLinkedList(MyNode headNode){
+    public MyLinkedList(MyNode headNode){
         this.head = headNode;
     }
-    MyLinkedList(){ this.head = null; };
+    public MyLinkedList(){ this.head = null; };
 
     /* Adds a node to the end of the LinkedList */
     public void appendNode(MyNode newElement) {
@@ -36,6 +36,7 @@ public class MyLinkedList {
         this.head = newElement;
         newElement.next = firstElement;
     }
+
     /* Inserts a node at some predefined index
     * Index should be from 0 to N*/
     public void insertAtIndex(MyNode newElement, int index) {
@@ -86,6 +87,7 @@ public class MyLinkedList {
     public boolean isEmpty() {
         return this.head == null ? true : false;
     }
+
     /* Finding a node value at some predefined index */
     public int get(int index) {
         /* Invalid cases */
@@ -106,6 +108,7 @@ public class MyLinkedList {
         return result;
     }
 
+    /* Deleting a node at predefined index */
     public void deleteAtIndex(int index) {
         /* Invalid cases */
         if(!isValidIndex(index)) {
@@ -115,16 +118,34 @@ public class MyLinkedList {
         if(isEmpty()) {
             return;
         }
-        /* Deleting the head node */
+        /* Deleting the head node of size 1 */
         if(this.getSize() == 1 && index == 0) {
             this.head = null;
             return;
         }
         int counter = 0;
         MyNode currentNode = this.head;
+        /* Deleting the head node */
+        if(index == 0) {
+            this.head = currentNode.next;
+            currentNode.next = null;
+        }
         while(currentNode != null) {
             if(counter+1 == index) {
+                /*Why it does not raise NullPointerException?*/
+                /* (1) -> (10) -> (12) */
+                if(currentNode.next.next!=null) {
+                    MyNode nextElement = currentNode.next.next;
+                    currentNode.next.next = null;
+                    currentNode.next = nextElement;
+                    break;
+                }
+                /* (4) -> (11) */
+                currentNode.next = null;
+                break;
             }
+            counter++;
+            currentNode = currentNode.next;
         }
     }
 
