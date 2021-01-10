@@ -40,18 +40,16 @@ public class MyLinkedList {
     /* Inserts a node at some predefined index
     * Index should be from 0 to N*/
     public void insertAtIndex(MyNode newElement, int index) {
-        if(index<0 || index>getSize() || newElement == null) {
+        if(index<0 || index > getSize()  || newElement == null) {
             return;
         }
         /* Inserting at index 0 */
-        System.out.println("I SHOULD BE HERE!");
         if(index == 0) {
             insertFront(newElement);
             return;
         }
-        System.out.println("I SHOULDN'T  BE HERE!");
         /* Inserting at the end of the list */
-        if(getSize() == index) {
+        if(this.getSize() == index) {
             appendNode(newElement);
             return;
         }
@@ -59,10 +57,13 @@ public class MyLinkedList {
         int count = 0;
         MyNode currentNode = this.head;
         while(currentNode != null) {
-            if(count == index) {
-                MyNode nextNode = currentNode.next;
-                currentNode.next = newElement;
-                newElement.next = nextNode;
+            if(count+1 == index) {
+                if(currentNode.next != null) {
+                    MyNode nextElement = currentNode.next;
+                    currentNode.next = newElement;
+                    newElement.next = nextElement;
+                    break;
+                }
             }
             count++;
             currentNode = currentNode.next;
@@ -129,6 +130,7 @@ public class MyLinkedList {
         if(index == 0) {
             this.head = currentNode.next;
             currentNode.next = null;
+            return;
         }
         while(currentNode != null) {
             if(counter+1 == index) {
